@@ -1,0 +1,433 @@
+{%- if site.repo == "https://github.com/radancyco/component-library" -%}
+
+  {%- assign current_id = page.id %}
+  {%- assign module = page.module %}
+  {%- assign component = site.data.module[module] | where: "id", current_id | first %}
+
+  {%- assign selectedComponents = site.data.module.components %}
+  {%- assign selectedFeeds = site.data.module.feeds %}
+  {%- assign allSelections = selectedComponents | concat: selectedFeeds %}
+
+  {%- include icon.html %}
+
+{%- endif -%}
+
+<!DOCTYPE html>
+<html lang="{{ site.lang }}" class="no-js">
+<head>
+  <meta charset="{{ site.charset }}">
+
+  <meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport">
+
+  <meta content="noindex, nofollow" name="robots">
+
+  <meta content="{{ site.theme-color }}" name="theme-color">
+
+  <meta name="responsive-embedded-sizing">
+
+  {%- if page.slick %}
+
+  <link href="{{ site.git-url }}/lib/a11y-slick-1.0.1/slick.min.css" rel="stylesheet">
+
+  {%- endif %}
+
+  {%- if page.accordion %}
+
+  <link href="{{ site.git-url }}/component-library/accordion/init.css" rel="stylesheet">
+
+  {%- endif %}
+
+  {%- if page.select-internal %}
+
+  <link href="{{ site.git-url }}/component-library/select-internal/init.css" rel="stylesheet">
+
+  {%- endif %}
+
+  {%- if page.read-more %}
+
+  <link href="{{ site.git-url }}/component-library/read-more/init.css" rel="stylesheet">
+
+  {%- endif %}
+
+  {%- if page.tablist %}
+
+  <link href="{{ site.git-url }}/component-library/tablist/init.css" rel="stylesheet">
+
+  {%- endif %}
+
+  {%- if page.card %}
+
+  <link href="{{ site.git-url }}/component-library/card/init.css" rel="stylesheet">
+
+  {%- endif %}
+
+  {%- if page.card-local %}
+
+  <link href="{{ site.baseurl }}/card/init.css" rel="stylesheet">
+
+  {%- endif %}
+
+  <link as="font" crossorigin href="{{ site.git-url }}/font/graphik-regular.woff2" rel="preload" type="font/woff2">
+  <link as="font" crossorigin href="{{ site.git-url }}/font/graphik-semibold.woff2" rel="preload" type="font/woff2">
+  <link as="font" crossorigin href="{{ site.git-url }}/font/campton-book.woff2" rel="preload" type="font/woff2">
+
+  <link href="{{ site.git-url }}/css/init.css" rel="stylesheet">
+
+  {%- if site.css %}
+
+  <link href="{{ site.baseurl }}/css/init.css" rel="stylesheet">
+
+  {%- endif %}
+
+  {%- if page.librarycss %}
+
+  <link href="{{ page.librarycss}}" rel="stylesheet">
+
+  {%- endif %}
+
+  {%- if page.localcss %}
+
+  <link href="{{ page.localcss }}" rel="stylesheet">
+
+  {%- endif %}
+
+  {%- for component in allSelections %}
+
+    {%- if component.id == current_id %}
+
+      {%- for example in component.examples %}
+
+        {%- if example.customcss %}
+
+        <link href="{{ example.customcss }}.css" rel="stylesheet">
+
+        {%- endif %}
+
+      {%- endfor %}
+
+    {%- endif %}
+
+  {%- endfor %}
+
+  <link href="{{ site.git-url }}/favicon.ico" rel="icon">
+
+  <link href="{{ site.git-url }}/manifest.json" rel="manifest">
+
+  <title>
+
+    {%- if component -%}
+
+      {{ component.title }} v{{ component.version }}
+
+    {%- else -%}
+
+    {{ page.title }}
+
+    {%- endif %} - {{ site.company-name -}}
+
+  </title>
+</head>
+
+<body id="{% if page.bodyid %}{{ page.bodyid }}{% else %}rad-{% if site.segment %}{{ site.segment }}-{% endif %}{{ page.path | replace:'.html',''|  replace:'.md','' | replace:'_','' | replace: '/', '-' | replace:'feeds-',''}}{% endif %}" tabindex="-1">
+
+  <a class="access-link" href="#content">Skip to main content</a>
+  
+  <header class="primary-header" id="banner">
+
+    <div class="primary-header__container">
+
+      <div class="primary-header__logo">
+
+        <a href="/"><img src="{{ site.git-url }}/img/logo-color.svg" alt="{{ site.company-name }} (Home)"></a> 
+        
+        <span>Design & Development</span>
+      
+      </div>
+
+      {%- if page.navigation != false %}
+
+        <nav aria-label="Main" class="primary-header__navigation">
+
+          <div class="primary-header__navigation__content" id="primary-navigation">
+
+            <ul>
+              <li><a data-nav-id="rad-global-index" href="https://radancy.dev/">Home</a></li>
+              <li><a data-nav-id="rad-global-a11y-index" href="https://radancy.dev/a11y/">Accessibility at Radancy</a></li>
+              <li><a data-nav-id="rad-global-a11y-pulse-index" href="https://radancy.dev/a11y/pulse/">Accessibility Pulse</a></li>
+              <li>
+                
+                <details name="navigation-parent">
+
+                  <summary>Component Library</summary>
+
+                  <ul>
+                    <li><a data-nav-id="rad-rcl-index" href="https://radancy.dev/component-library/"><span class="visually-hidden">Component Library</span> Home</a></li>
+                    <li>
+
+                        <details name="navigation-child">
+
+                          <summary>Components</summary>
+
+                          <ul role="list">
+
+                            {% for component in site.data.module.components %}
+
+                              {% if component.hidden != true %}
+
+                                <li><a data-nav-id="rad-rcl-{{ component.id }}-index" href="{% if component.path-full %}{{ component.path-full }}{% else %}https://radancy.dev/component-library/{{ component.path }}/{{ component.hash }}{% endif %}">{{ component.title }}</a> {% if component.deprecated == true %}<span class="alert">(Deprecated)</span>{% endif %}</li>
+
+                              {% endif %}
+
+                            {% endfor %}
+
+                          </ul>
+
+                        </details>
+
+                        <details name="navigation-child">
+
+                          <summary>Third-Party</summary>
+
+                          <ul role="list">
+
+                            {% for feed in site.data.module.feeds %}
+
+                              {% if feed.hidden != true %}
+
+                                <li><a data-nav-id="rad-rcl-{{ feed.id }}-index" href="{% if feed.path-full %}{{ feed.path-full }}{% else %}https://radancy.dev/component-library/{{ feed.path }}/{{ feed.hash }}{% endif %}">{{ feed.title }}</a> {% if feed.deprecated == true %}<span class="alert">(Deprecated)</span>{% endif %}</li>
+
+                              {% endif %}
+
+                            {% endfor %}
+
+                          </ul>
+
+                        </details>
+
+                        <details name="navigation-child">
+
+                          <summary>Layouts</summary>
+
+                          <ul role="list">
+
+                            {% for layout in site.data.module.layouts %}
+
+                              {% if layout.hidden != true %}
+
+                                <li><a data-nav-id="rad-rcl-{{ layout.id }}-index" href="{% if layout.path-full %}{{ layout.path-full }}{% else %}https://radancy.dev/component-library/{{ layout.path }}/{{ layout.hash }}{% endif %}">{{ layout.title }}</a> {% if layout.deprecated == true %}<span class="alert">(Deprecated)</span>{% endif %}</li>
+
+                              {% endif %}
+
+                            {% endfor %}
+
+                          </ul>
+
+                        </details>
+
+                        <details name="navigation-child">
+
+                          <summary>Resources</summary>
+
+                          <ul role="list">
+
+                            {% for resource in site.data.module.resources %}
+
+                              {% if feed.hidden != true %}
+
+                                <li><a data-nav-id="rad-rcl-{{ resource.id }}-index" href="{% if resource.path-full %}{{ resource.path-full }}{% else %}https://radancy.dev/component-library/{{ resource.path }}/{{ resource.hash }}{% endif %}">{{ resource.title }}</a> {% if resource.deprecated == true %}<span class="alert">(Deprecated)</span>{% endif %}</li>
+
+                              {% endif %}
+
+                            {% endfor %}
+
+                          </ul>
+
+                        </details>
+
+                    </li>
+                  </ul>
+
+                </details>
+                
+              </li>
+              <li>
+
+                <details name="navigation-parent">
+
+                  <summary>MagicBullet</summary>
+                   
+                  <ul>
+                    <li><a data-nav-id="rad-magicbullet-index" href="https://radancy.dev/magicbullet/"><span class="visually-hidden">MagicBullet</span> Home</a></li>
+                    <li><a data-nav-id="rad-magicbullet-a11y-index" href="https://radancy.dev/magicbullet/a11y/">Accessibility Patch</a></li>
+                    <li><a data-nav-id="rad-magicbullet-alert-index" href="https://radancy.dev/magicbullet/alert/">System Alert</a></li>
+                  </ul>
+
+                </details>
+
+              </li>
+              <li><a data-nav-id="rad-global-blog" href="https://radancy.dev/blog/">Radancy DevBlog</a></li>
+              <li><a data-nav-id="rad-global-uid-code-standards" href="https://radancy.dev/uid/code-standards/">User Interface Standards and Guidelines</a></li>
+            </ul>
+
+          </div>
+
+        </nav>
+
+      {%- endif %}
+
+    </div>
+
+  </header>
+
+  <main id="content">
+
+    {%- if component %}
+
+    <h1 class="primary-heading">{{ component.title }} v{{ component.version }} </h1>
+
+    {%- else if page.title %}
+
+      {%- if page.heading != false %}
+
+      <h1 class="primary-heading">{{ page.title }}</h1>
+
+      {%- endif %}
+
+    {%- endif %}
+
+    {%- if page.layout == "micropubpost" %}
+
+    <div class="post-overview">
+
+      <div>
+
+        <img src="{{ page.img }}" alt="Headshot of {{ page.author }}">
+
+      </div>
+
+      <div>
+
+        <ul role="list">
+
+          <li><span class="visually-hidden">Posted by:</span> <a href='mailto:{{ page.email }}?Subject={{ page.title | replace: " ", "%20" }}'>{{ page.author }}</a>{% if page.role %}, {{ page.role }}{% endif %}</li>
+
+          {%- if page.pronouns %}
+
+          <li><span class="visually-hidden">Pronouns:</span> {{ page.pronouns }}</li>
+
+          {%- endif %}
+
+          <li><span class="visually-hidden">Posted:</span> {{ page.date | date: "%A, %B %e, %Y" }}</li>
+
+          {%- if page.update %}
+
+          <li><span>Update:</span> {{ page.update | date: "%A, %B %e, %Y" }}</li>
+
+          {%- endif %}
+
+        </ul>
+
+      </div>
+
+    </div>
+
+    {%- endif %}
+
+    {%- if page.toc %}
+
+    <details class="nav">
+
+      <summary class="btn">Table of Contents</summary>
+
+      {% include table-of-contents.html html=content h_max=4 ordered=true %}
+
+    </details>
+
+    {%- endif %}
+
+    {{ content }}
+
+  </main>
+
+  <footer id="contentinfo">
+
+    <p><small>&copy; {{ "now" | date: "%Y" }} {{ site.company-name }}. An equal opportunity employer. Please see our <a href="https://radancy.dev/privacy/">privacy statement</a>.</small></p>
+
+  </footer>
+
+  {%- if page.jquery == true %}
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+  {%- endif %}
+
+  {%- if page.slick %}
+
+  <script src="{{ site.git-url }}/lib/a11y-slick-1.0.1/slick.min.js"></script>
+
+  {%- endif %}
+
+  {%- if page.accordion %}
+
+  <script src="{{ site.git-url }}/component-library/accordion/init.js"></script>
+
+  {%- endif %}
+
+  {%- if page.disclosure %}
+
+  <script src="{{ site.git-url }}/component-library/disclosure/init.js"></script>
+
+  {%- endif %}
+
+  {%- if page.select-internal %}
+
+  <script src="{{ site.git-url }}/component-library/select-internal/init.js"></script>
+
+  {%- endif %}
+
+  {%- if page.read-more %}
+
+  <script src="{{ site.git-url }}/component-library/read-more/init.js"></script>
+
+  {%- endif %}
+
+  {%- if page.tablist %}
+
+  <script src="{{ site.git-url }}/component-library/tablist/init.js"></script>
+
+  {%- endif %}
+
+  <script src="{{ site.git-url }}/js/init.js"></script>
+
+  {%- if page.libraryjs %}
+
+  <script src="{{ page.libraryjs}}"></script>
+
+  {%- endif %}
+
+  {%- if page.localjs %}
+
+  <script src="{{ page.localjs }}"></script>
+
+  {%- endif %}
+
+  {%- for component in allSelections %}
+
+    {%- if component.id == current_id %}
+
+      {%- for example in component.examples %}
+
+        {%- if example.customjs %}
+  
+        <script src="{{ example.customjs }}"></script>
+
+        {%- endif %}
+
+      {%- endfor %}
+
+    {%- endif %}
+
+  {%- endfor %}
+
+</body>
+</html>

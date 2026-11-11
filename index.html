@@ -1,0 +1,72 @@
+---
+attributes:  
+
+  - name: data-a11y
+    html: script
+    note:
+
+      - String
+      - Optional
+
+    desc: Accepts value of <code>true</code> or null. Learn more about <a href="a11y">Accessibility Patch</a>.
+
+  - name: data-alert
+    html: script
+    note:
+
+      - String
+      - Optional
+
+    desc: Accepts value of <code>true</code> or null. Learn more about <a href="alert">System Alert</a>.
+
+  - name: id
+    html: script
+    note:
+
+      - String
+      - Mandatory
+
+    desc: Accepts value of <code>radancy-magicbullet</code>. This value is required for critical functions within the script. The script also accepts <strong>tmp-magic-bullet</strong> but this should no longer be used.
+
+  - name: src
+    html: script
+    note:
+
+      - String
+      - Mandatory
+
+    desc: Accepts value of <code>https://services.tmpwebeng.com/magicbullet/</code>.
+
+  - name: type
+    html: script
+    note:
+
+      - String
+      - Mandatory
+
+    desc: Accepts value of <code>module</code> which will be leveraged in the future. Currently has no impact excpet that scripts with this type will automatically be deferred, which is equivelent to adding the <code>defer</code> attribute.
+
+changelog: 
+
+  - label: Feature
+    content: 'April 23, 2025: Added <code>type="module"</code> for future enhancement.'
+
+notes: 
+
+  - label: Important
+    content: Please be aware that the <a href="init.js">QA version</a> of MagicBullet, along with all associated imports, will be loaded on <em>runmytests.com</em> sites.
+
+title: "MagicBullet v2.2"
+desc: MagicBullet is a script importer designed to seamlessly load beneficial fixes, enhanced functionality, and additional features.
+accordion: true
+---
+
+{% capture contentblock %}
+
+    <h2 id="implementation">Implementation {% include permalink.html hash="implementation" %}</h2>
+    
+    {% highlight html %}<script id="radancy-magicbullet" data-a11y data-alert src="https://services.tmpwebeng.com/magicbullet/" type="module"></script>{% endhighlight %}
+
+{% endcapture %}
+
+{% include template.html %}
