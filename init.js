@@ -64,7 +64,7 @@
 
   const localPaths = hostWithPort === "localhost:4010";
 
-  const testPaths = hostName === "runmytests.com" || hostName === "runmytests.eu" || hostName === "talentbrew.com" || hostName === "tmpqa.com";
+  const testPaths = hostName === "runmytests.com" || hostName === "runmytests.eu" || hostName === "talentbrew.com" || hostName === "tmpqa.com" || hostName === "radancy.net";
 
   // Execute A11y
 
